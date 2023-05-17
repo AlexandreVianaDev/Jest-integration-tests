@@ -5,32 +5,39 @@ import {
   OneToOne,
   JoinColumn,
   OneToMany,
-} from 'typeorm'
-import { Buy } from './buy.entity'
-import { Cart } from './cart.entity'
+  BeforeInsert,
+} from "typeorm";
+import { Buy } from "./buy.entity";
+import { Cart } from "./cart.entity";
+import { hash } from "bcryptjs";
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn('increment')
-  readonly id: number
+  @PrimaryGeneratedColumn("increment")
+  readonly id: number;
 
   @Column()
-  name: string
+  name: string;
 
   @Column({ nullable: true })
-  email: string
+  email: string;
 
   @Column()
-  password: string
+  password: string;
 
   @OneToMany((type) => Buy, (buy) => buy.user, {
     eager: true,
   })
-  buys: Buy[]
+  buys: Buy[];
 
   @OneToOne((type) => Cart, {
     eager: true,
   })
   @JoinColumn()
-  cart: Cart
+  cart: Cart;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await hash(this.password, 10);
+  }
 }
