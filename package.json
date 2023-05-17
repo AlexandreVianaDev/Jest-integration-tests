@@ -1,0 +1,33 @@
+{
+    "name": "API_Node_Express_com_TypeScript",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "dev": "ts-node-dev --ignore-watch node_modules --cls --rs src/server.ts",
+        "typeorm": "typeorm-ts-node-commonjs",
+        "test": "jest"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "express-async-errors": "^3.1.1",
+        "jsonwebtoken": "^9.0.0",
+        "pg": "^8.10.0",
+        "typeorm": "^0.3.12"
+    },
+    "devDependencies": {
+        "@types/bcryptjs": "^2.4.2",
+        "@types/express": "^4.17.17",
+        "@types/jest": "^29.4.0",
+        "@types/jsonwebtoken": "^9.0.1",
+        "@types/node": "^18.15.0",
+        "@types/supertest": "^2.0.12",
+        "jest": "^29.5.0",
+        "sqlite3": "^5.1.4",
+        "supertest": "^6.3.3",
+        "ts-jest": "^29.0.5",
+        "ts-node-dev": "^2.0.0"
+    }
+}
