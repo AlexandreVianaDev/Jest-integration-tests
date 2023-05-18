@@ -2,8 +2,6 @@ import { DataSource, Repository } from "typeorm";
 import { AppDataSource } from "../../data-source";
 import request from "supertest";
 import app from "../../app";
-import * as bcrypt from "bcryptjs";
-import usersMock from "../mocks/users.mock";
 import productsMock from "../mocks/products.mock";
 import { Product } from "../../entities/product.entity";
 
@@ -24,12 +22,13 @@ describe("GET - /products", () => {
 
   beforeEach(async () => {
     const products: Product[] = await productRepo.find();
-
     await productRepo.remove(products);
   });
 
   test("Success - Should list all Products", async () => {
-    const productCreated = productRepo.create(productsMock.createProductDefaultResponseMock);
+    const productCreated = productRepo.create(
+      productsMock.createProductDefaultResponseMock
+    );
     await productRepo.save(productCreated);
 
     const response = await request(app).get("/products");

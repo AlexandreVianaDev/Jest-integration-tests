@@ -1,12 +1,12 @@
-import { AppDataSource } from '../../data-source'
-import { Product } from '../../entities/product.entity'
+import { AppDataSource } from "../../data-source";
+import { Product } from "../../entities/product.entity";
 
 const productListService = async () => {
-  const productRepository = AppDataSource.getRepository(Product)
+  const productRepository = AppDataSource.getRepository(Product);
 
-  const productList = await productRepository.find()
+  const productList = await productRepository.find();
 
-  return productList
-}
+  return productList;
+};
 
-export default productListService
+export default productListService;

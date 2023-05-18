@@ -1,14 +1,14 @@
-import 'express-async-errors'
-import express from 'express'
-import { appRoutes } from './routes'
-import { handleErrors } from './errors'
+import "express-async-errors";
+import express from "express";
+import { appRoutes } from "./routes";
+import { handleErrors } from "./errors";
 
-const app = express()
+const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
-appRoutes(app)
+appRoutes(app);
 
-app.use(handleErrors)
+app.use(handleErrors);
 
-export default app
+export default app;

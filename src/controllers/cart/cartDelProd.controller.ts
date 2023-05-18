@@ -1,14 +1,14 @@
-import { Request, Response } from 'express'
-import cartDelProdService from '../../services/cart/cartDelProd.service'
+import { Request, Response } from "express";
+import cartDelProdService from "../../services/cart/cartDelProd.service";
 
 const cartDelProdController = async (req: Request, res: Response) => {
-  const product_id = parseInt(req.params.product_id)
+  const product_id = parseInt(req.params.product_id);
 
-  const { userEmail } = req
+  const { userEmail } = req;
 
-  await cartDelProdService(userEmail, product_id)
+  await cartDelProdService(userEmail, product_id);
 
-  return res.sendStatus(204)
-}
+  return res.sendStatus(204);
+};
 
-export default cartDelProdController
+export default cartDelProdController;

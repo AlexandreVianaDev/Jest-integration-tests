@@ -1,4 +1,4 @@
-import { DataSource, Repository, getRepository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 import { AppDataSource } from "../../data-source";
 import request from "supertest";
 import app from "../../app";
@@ -8,14 +8,13 @@ import { User } from "../../entities/user.entity";
 
 describe("POST - /users", () => {
   let connection: DataSource;
-  // let userRepo: Repository<User>;
-  const userRepo: Repository<User> = AppDataSource.getRepository(User);
+  let userRepo: Repository<User>;
 
   beforeAll(async () => {
     await AppDataSource.initialize()
       .then((res) => {
         connection = res;
-        // userRepo = res.getRepository(User);
+        userRepo = res.getRepository(User);
       })
       .catch((err) => {
         console.error("Error during Data Source initialization", err);
@@ -24,17 +23,11 @@ describe("POST - /users", () => {
 
   beforeEach(async () => {
     const users: User[] = await userRepo.find();
-
     await userRepo.remove(users);
-    // console.log(users)
-    // await userRepo.clear();
-
-    // const users: User[] = await userRepo.find();
   });
 
   afterAll(async () => {
     const users: User[] = await userRepo.find();
-
     await userRepo.remove(users);
 
     await connection.destroy();
@@ -58,22 +51,6 @@ describe("POST - /users", () => {
   });
 
   test("Error - Should not create an User with email already used", async () => {
-    // const emailExists = await userRepo.findOneBy({
-    //   email: usersMock.createUserBySQLMock.email,
-    // });
-
-    // let userCreated: User;
-
-    // if (emailExists) {
-    //   userCreated = userRepo.create({
-    //     ...usersMock.createUserBySQLMock,
-    //     email: crypto.randomUUID() + "@mail.com",
-    //   });
-    // } else {
-    //   userCreated = userRepo.create(usersMock.createUserBySQLMock);
-    // }
-    // await userRepo.save(userCreated);
-
     const userCreated = userRepo.create(usersMock.createUserBySQLMock);
     await userRepo.save(userCreated);
 

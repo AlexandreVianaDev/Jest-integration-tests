@@ -2,9 +2,7 @@ import { DataSource, Repository } from "typeorm";
 import { AppDataSource } from "../../data-source";
 import request from "supertest";
 import app from "../../app";
-import * as bcrypt from "bcryptjs";
 import usersMock from "../mocks/users.mock";
-import jwt from "jsonwebtoken";
 import { User } from "../../entities/user.entity";
 import generateToken from "../mocks/generateToken";
 
@@ -22,24 +20,20 @@ describe("DELETE - /users/me", () => {
         console.error("Error during Data Source initialization", err);
       });
 
-      const userCreated = userRepo.create(usersMock.createUserDefaultMock);
+    const userCreated = userRepo.create(usersMock.createUserDefaultMock);
     await userRepo.save(userCreated);
   });
 
   afterAll(async () => {
     const users: User[] = await userRepo.find();
-
     await userRepo.remove(users);
 
     await connection.destroy();
   });
 
   test("Success - Should be able to delete the User", async () => {
-    // const userCreated = userRepo.create(usersMock.createUserBySQLMock);
     const userCreated = userRepo.create(usersMock.createUserDefaultMock);
     await userRepo.save(userCreated);
-
-    // await request(app).post("/users").send(usersMock.createUserDefaultMock);
 
     const token = generateToken.genToken(usersMock.createUserDefaultMock.email);
 

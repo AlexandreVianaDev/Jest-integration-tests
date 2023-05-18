@@ -1,16 +1,16 @@
-import { AppDataSource } from '../../data-source'
-import { User } from '../../entities/user.entity'
+import { AppDataSource } from "../../data-source";
+import { User } from "../../entities/user.entity";
 
 const userListOneService = async (email: string) => {
-  const userRepository = AppDataSource.getRepository(User)
+  const userRepository = AppDataSource.getRepository(User);
 
   const user = await userRepository.findOne({
     where: {
       email: email,
     },
-  })
+  });
 
-  return user
-}
+  return user;
+};
 
-export default userListOneService
+export default userListOneService;

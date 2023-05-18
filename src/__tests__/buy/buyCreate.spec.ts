@@ -2,10 +2,8 @@ import { DataSource, Repository } from "typeorm";
 import { AppDataSource } from "../../data-source";
 import request from "supertest";
 import app from "../../app";
-import * as bcrypt from "bcryptjs";
 import usersMock from "../mocks/users.mock";
 import productsMock from "../mocks/products.mock";
-import cartMocks from "../mocks/cart.mocks";
 import buyMocks from "../mocks/buy.mocks";
 import { User } from "../../entities/user.entity";
 import generateToken from "../mocks/generateToken";
@@ -30,17 +28,43 @@ describe("POST - /buy", () => {
         console.error("Error during Data Source initialization", err);
       });
 
-    const userCreated = userRepo.create(usersMock.createUserBySQLMock);
-    await userRepo.save(userCreated);
+    const productCreated = productRepo.create(
+      productsMock.createProductDefaultMock
+    );
+    await productRepo.save(productCreated);
+
+    const productToAdd = await productRepo.findOne({
+      where: {
+        id: 1,
+      },
+    });
+
+    const cart = new Cart();
+    cart.subtotal = 0;
+    cart.products = [productToAdd!];
+
+    const cartCreate = cartRepo.create(cart);
+    await cartRepo.save(cartCreate);
+
+    const name = "name";
+    const email = "email@mail.com";
+    const password = "123456";
+
+    const user = new User();
+    user.name = name;
+    user.email = email;
+    user.password = password;
+    user.cart = cartCreate;
+
+    userRepo.create(user);
+    await userRepo.save(user);
   });
 
   afterAll(async () => {
     const users: User[] = await userRepo.find();
-
     await userRepo.remove(users);
 
     const carts: Cart[] = await cartRepo.find();
-
     await cartRepo.remove(carts);
 
     await connection.destroy();
@@ -49,21 +73,9 @@ describe("POST - /buy", () => {
   test("Success - Should be able to buy the Cart", async () => {
     const token = generateToken.genToken(usersMock.createUserDefaultMock.email);
 
-    const productCreated = productRepo.create(
-      productsMock.createProductDefaultMock
-    );
-    await productRepo.save(productCreated);
-
-    const cartCreated = cartRepo.create(
-      cartMocks.cartAddProductDefaultResponseMock
-    );
-    await cartRepo.save(cartCreated);
-
     const response = await request(app)
       .post("/buy")
       .set("Authorization", `Bearer ${token}`);
-
-    console.log("BUY", response.body);
 
     expect(response.status).toBe(201);
     expect(response.body).toEqual([

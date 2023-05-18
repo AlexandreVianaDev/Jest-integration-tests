@@ -13,7 +13,14 @@ export default {
   cartAddProductDefaultResponseMock: {
     id: 1,
     subtotal: productsMock.createProductDefaultResponseMock.price,
-    products: [],
+    products: [
+      {
+        id: productsMock.createProductDefaultResponseMock.id,
+        name: productsMock.createProductDefaultResponseMock.name,
+        description: productsMock.createProductDefaultResponseMock.description,
+        price: productsMock.createProductDefaultResponseMock.price,
+      },
+    ],
   },
   cartAddProductSQLMock: {
     subtotal: productsMock.createProductDefaultResponseMock.price,

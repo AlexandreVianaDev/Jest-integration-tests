@@ -1,12 +1,12 @@
-import { Router } from 'express'
+import { Router } from "express";
 
-import buyCreateController from '../controllers/buy/buyCreate.controller'
-import { authUser } from '../middlewares/authUser.middleware'
+import buyCreateController from "../controllers/buy/buyCreate.controller";
+import { authUser } from "../middlewares/authUser.middleware";
 
-const routes = Router()
+const routes = Router();
 
 export const buyRoutes = () => {
-  routes.post('/', authUser, buyCreateController)
+  routes.post("/", authUser, buyCreateController);
 
-  return routes
-}
+  return routes;
+};
