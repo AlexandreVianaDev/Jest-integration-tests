@@ -1,16 +1,16 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn('increment')
-  readonly id: number
+  @PrimaryGeneratedColumn("increment")
+  readonly id: number;
 
   @Column()
-  name: string
+  name: string;
 
   @Column()
-  description: string
+  description: string;
 
-  @Column({ type: 'float' })
-  price: number
+  @Column({ type: "float" })
+  price: number;
 }

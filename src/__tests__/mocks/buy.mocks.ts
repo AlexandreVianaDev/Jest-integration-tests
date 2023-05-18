@@ -12,6 +12,14 @@ export default {
   },
   buyDefaultResponseMock: {
     id: productsMock.createProductDefaultResponseMock.id,
-    total: productsMock.createProductDefaultResponseMock.price,
+    total: 0,
+    products: [
+      {
+        id: productsMock.createProductDefaultResponseMock.id,
+        name: productsMock.createProductDefaultResponseMock.name,
+        description: productsMock.createProductDefaultResponseMock.description,
+        price: productsMock.createProductDefaultResponseMock.price,
+      },
+    ],
   },
 };

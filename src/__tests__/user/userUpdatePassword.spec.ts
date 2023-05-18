@@ -2,9 +2,7 @@ import { DataSource, Repository } from "typeorm";
 import { AppDataSource } from "../../data-source";
 import request from "supertest";
 import app from "../../app";
-import * as bcrypt from "bcryptjs";
 import usersMock from "../mocks/users.mock";
-import jwt from "jsonwebtoken";
 import { User } from "../../entities/user.entity";
 import generateToken from "../mocks/generateToken";
 
@@ -35,8 +33,6 @@ describe("PATCH - /users/me/updatePassword", () => {
   });
 
   test("Success - Should update the User password", async () => {
-    // const userCreated = userRepo.create(usersMock.createUserBySQLMock);
-    // await userRepo.save(userCreated);
     const token = generateToken.genToken(usersMock.createUserDefaultMock.email);
 
     const response = await request(app)

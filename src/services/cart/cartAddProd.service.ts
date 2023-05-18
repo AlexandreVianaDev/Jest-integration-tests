@@ -1,53 +1,53 @@
-import { AppDataSource } from '../../data-source'
-import { Cart } from '../../entities/cart.entity'
-import { Product } from '../../entities/product.entity'
-import { User } from '../../entities/user.entity'
-import { AppError } from '../../errors'
-import { fixedFloat } from '../../utils'
+import { AppDataSource } from "../../data-source";
+import { Cart } from "../../entities/cart.entity";
+import { Product } from "../../entities/product.entity";
+import { User } from "../../entities/user.entity";
+import { AppError } from "../../errors";
+import { fixedFloat } from "../../utils";
 
 const cartAddProdService = async (product_id: number, userEmail: string) => {
-  const userRepository = AppDataSource.getRepository(User)
+  const userRepository = AppDataSource.getRepository(User);
 
   const user = await userRepository.findOne({
     where: {
       email: userEmail,
     },
-  })
+  });
 
-  const cartRepository = AppDataSource.getRepository(Cart)
+  const cartRepository = AppDataSource.getRepository(Cart);
 
   const cart = await cartRepository.findOne({
     where: {
       id: user!.cart.id,
     },
-  })
+  });
 
-  const productRepository = AppDataSource.getRepository(Product)
+  const productRepository = AppDataSource.getRepository(Product);
 
   const productToAdd = await productRepository.findOne({
     where: {
       id: product_id,
     },
-  })
+  });
 
   if (!productToAdd) {
-    throw new AppError(404, 'Product not found')
+    throw new AppError(404, "Product not found");
   }
 
   if (cart && productToAdd) {
     if (
       cart.products.filter((prod) => prod.name === productToAdd.name).length > 0
     ) {
-      throw new AppError(409, 'Product is already in the cart')
+      throw new AppError(409, "Product is already in the cart");
     }
 
-    cart.products = [...cart.products, productToAdd]
-    cart.subtotal = fixedFloat(cart.subtotal + productToAdd.price)
+    cart.products = [...cart.products, productToAdd];
+    cart.subtotal = fixedFloat(cart.subtotal + productToAdd.price);
 
-    await cartRepository.save(cart)
+    await cartRepository.save(cart);
 
-    return cart
+    return cart;
   }
-}
+};
 
-export default cartAddProdService
+export default cartAddProdService;

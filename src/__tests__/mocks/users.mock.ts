@@ -25,10 +25,10 @@ export default {
     name,
     email,
     password,
-    cart: {
-      id: 1,
-      // subtotal: 0,
-    },
+    // cart: {
+    //   id: 1,
+    //   // subtotal: 0,
+    // },
   },
   loginUserDefaultMock: {
     email,

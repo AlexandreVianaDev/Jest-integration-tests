@@ -5,26 +5,26 @@ import {
   ManyToMany,
   ManyToOne,
   JoinTable,
-} from 'typeorm'
-import { Product } from './product.entity'
-import { User } from './user.entity'
+} from "typeorm";
+import { Product } from "./product.entity";
+import { User } from "./user.entity";
 
 @Entity()
 export class Buy {
-  @PrimaryGeneratedColumn('increment')
-  readonly id: number
+  @PrimaryGeneratedColumn("increment")
+  readonly id: number;
 
   @ManyToOne((type) => User, (user) => user.buys, {
-    onDelete: "CASCADE"
+    onDelete: "CASCADE",
   })
-  user: User
+  user: User;
 
   @ManyToMany((type) => Product, {
     eager: true,
   })
   @JoinTable()
-  products: Product[]
+  products: Product[];
 
-  @Column({ type: 'float' })
-  total: number
+  @Column({ type: "float" })
+  total: number;
 }

@@ -1,11 +1,9 @@
-import { DataSource, Repository, getRepository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 import { AppDataSource } from "../../data-source";
 import request from "supertest";
 import app from "../../app";
 import usersMock from "../mocks/users.mock";
-import jwt from "jsonwebtoken";
 import { User } from "../../entities/user.entity";
-import generateToken from "../mocks/generateToken";
 
 describe("POST - /users/login", () => {
   let connection: DataSource;
@@ -24,7 +22,6 @@ describe("POST - /users/login", () => {
 
   afterAll(async () => {
     const users: User[] = await userRepo.find();
-
     await userRepo.remove(users);
 
     await connection.destroy();
@@ -37,18 +34,6 @@ describe("POST - /users/login", () => {
     const response = await request(app)
       .post("/users/login")
       .send(usersMock.loginUserDefaultMock);
-
-    const check = await userRepo.findOneBy({
-      email: usersMock.loginUserDefaultMock.email,
-    });
-
-    console.log(
-      "LOGIN",
-      response.body,
-      check,
-      "enviado para login",
-      usersMock.loginUserDefaultMock
-    );
 
     const expectResults = {
       status: 200,

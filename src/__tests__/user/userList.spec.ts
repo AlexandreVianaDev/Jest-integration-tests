@@ -20,21 +20,18 @@ describe("GET - /users", () => {
         console.error("Error during Data Source initialization", err);
       });
 
-      const userCreated = userRepo.create(usersMock.createUserDefaultMock);
+    const userCreated = userRepo.create(usersMock.createUserDefaultMock);
     await userRepo.save(userCreated);
   });
 
   afterAll(async () => {
     const users: User[] = await userRepo.find();
-
     await userRepo.remove(users);
 
     await connection.destroy();
   });
 
   test("Success - Should list all Users", async () => {
-    // const userCreated = userRepo.create(usersMock.createUserBySQLMock);
-    // await userRepo.save(userCreated);
     const token = generateToken.genToken(usersMock.createUserDefaultMock.email);
 
     const response = await request(app)
